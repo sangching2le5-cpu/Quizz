@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#eaf6fd" />
+<title>Small Family — Fill in the Blanks</title>
+<style>
+  /* ============ BASE ============ */
+  :root{
+    --blue-50:#f4fbff;
+    --blue-100:#e6f4fd;
+    --blue-200:#cfe8f8;
+    --blue-300:#a9d6f0;
+    --blue-400:#7cc0e8;
+    --blue-500:#4fa8dc;
+    --blue-600:#3a8dc0;
+    --ink:#1e3d52;
+    --ink-soft:#4d7189;
+    --green:#2e9e6b;
+    --green-bg:#e8f8f0;
+    --green-border:#b7e4cd;
+    --red:#d95f5f;
+    --red-bg:#fdeded;
+    --red-border:#f4c4c4;
+    --shadow:0 6px 20px rgba(58,141,192,.10);
+    --shadow-lg:0 12px 34px rgba(58,141,192,.16);
+    --radius:18px;
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+  html,body{ margin:0; padding:0; }
+
+  body{
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    color:var(--ink);
+    background:linear-gradient(160deg,#eef8fe 0%, #f9fdff 45%, #eaf5fd 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-text-size-adjust:100%;
+    line-height:1.5;
+  }
+
+  .app{
+    max-width:900px;
+    margin:0 auto;
+    padding:16px 14px 48px;
+  }
+
+  /* ============ SCREENS ============ */
+  .screen{ display:none; }
+  .screen.active{ display:block; animation:fadeIn .25s ease both; }
+
+  @keyframes fadeIn{
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* ============ CARDS ============ */
+  .card{
+    background:#fff;
+    border:1px solid #e8f3fa;
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px;
+    margin-bottom:16px;
+  }
+
+  .hero{ text-align:center; padding:28px 22px 26px; }
+
+  .badge{
+    display:inline-block;
+    background:var(--blue-100);
+    color:var(--blue-600);
+    font-size:.8rem;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+
+  .title{
+    font-size:clamp(1.25rem, 3.8vw, 2rem);
+    font-weight:800;
+    letter-spacing:.5px;
+    line-height:1.25;
+    color:#2b6d97;
+    margin:0 0 10px;
+    text-align:center;
+  }
+
+  .subtitle{
+    font-size:clamp(.95rem, 2.3vw, 1.1rem);
+    color:var(--ink-soft);
+    margin:0 auto 6px;
+    max-width:620px;
+  }
+
+  /* ============ START SCREEN ============ */
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:center;
+    margin:20px 0 4px;
+  }
+
+  .meta-chip{
+    background:var(--blue-50);
+    border:1px solid var(--blue-200);
+    color:#2b6d97;
+    font-size:.9rem;
+    font-weight:700;
+    padding:8px 16px;
+    border-radius:999px;
+  }
+
+  .instructions{
+    background:var(--blue-50);
+    border:1px solid var(--blue-200);
+    border-radius:14px;
+    padding:16px 18px;
+    margin:20px 0 24px;
+    text-align:left;
+  }
+
+  .instructions h2{
+    margin:0 0 8px;
+    font-size:1.02rem;
+    color:#2b6d97;
+    letter-spacing:.3px;
+  }
+
+  .instructions p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:1rem;
+    line-height:1.65;
+  }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:800;
+    letter-spacing:.4px;
+    border:none;
+    border-radius:999px;
+    padding:15px 30px;
+    cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, color .15s ease;
+    user-select:none;
+    touch-action:manipulation;
+  }
+
+  .btn-primary{
+    background:linear-gradient(180deg,#63b6e6,#3f97cf);
+    color:#fff;
+    box-shadow:0 8px 18px rgba(63,151,207,.30);
+  }
+
+  .btn-primary:hover:not(:disabled){ transform:translateY(-2px); box-shadow:0 12px 24px rgba(63,151,207,.36); }
+  .btn-primary:active:not(:disabled){ transform:translateY(0) scale(.985); }
+
+  .btn-primary:disabled{
+    background:#d3e5f0;
+    color:#fff;
+    box-shadow:none;
+    cursor:not-allowed;
+  }
+
+  .btn-ghost{
+    background:#fff;
+    color:#3f8dbd;
+    border:2px solid var(--blue-200);
+  }
+
+  .btn-ghost:hover{ background:var(--blue-50); border-color:var(--blue-300); }
+  .btn-ghost:active{ transform:scale(.985); }
+
+  .btn-lg{ font-size:1.12rem; padding:17px 46px; width:100%; max-width:420px; }
+
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin-top:8px;
+  }
+
+  .actions .btn{ flex:1 1 200px; max-width:330px; }
+
+  /* ============ QUIZ TOP BAR ============ */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+
+  .pill{
+    display:inline-block;
+    background:#fff;
+    border:1px solid var(--blue-200);
+    color:#2b6d97;
+    font-size:.92rem;
+    font-weight:800;
+    padding:8px 16px;
+    border-radius:999px;
+    box-shadow:0 3px 10px rgba(58,141,192,.08);
+  }
+
+  .pill.score{ color:#2b6d97; }
+  .pill.score strong{ color:var(--blue-600); font-size:1.05rem; }
+
+  .progress-track{
+    height:10px;
+    width:100%;
+    background:#e2eff8;
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:16px;
+    box-shadow:inset 0 1px 3px rgba(58,141,192,.12);
+  }
+
+  .progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#8fd0f0,#4fa8dc);
+    transition:width .35s ease;
+  }
+
+  /* ============ QUESTION ============ */
+  .question-card{ padding:22px 20px; }
+
+  .question-label{
+    margin:0 0 10px;
+    font-size:.82rem;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--blue-500);
+  }
+
+  .question-text{
+    margin:0;
+    font-size:clamp(1.08rem, 2.9vw, 1.35rem);
+    font-weight:600;
+    line-height:1.6;
+    color:var(--ink);
+  }
+
+  .blank{
+    color:var(--blue-500);
+    font-weight:800;
+    letter-spacing:1px;
+    white-space:nowrap;
+  }
+
+  .blank.filled{
+    background:var(--green-bg);
+    color:#1e6b47;
+    padding:2px 10px;
+    border-radius:8px;
+    letter-spacing:normal;
+    white-space:normal;
+    animation:pop .3s ease;
+  }
+
+  @keyframes pop{
+    0%{ transform:scale(.9); opacity:.4; }
+    100%{ transform:scale(1); opacity:1; }
+  }
+
+  /* ============ WORD BANK ============ */
+  .bank-card{ padding:18px 16px 20px; }
+
+  .bank-label{
+    margin:0 0 4px;
+    font-size:.82rem;
+    font-weight:800;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--blue-500);
+  }
+
+  .bank-hint{
+    margin:0 0 14px;
+    font-size:.85rem;
+    color:var(--ink-soft);
+  }
+
+  .word-bank{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0,1fr));
+    gap:10px;
+  }
+
+  .word-card{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    width:100%;
+    min-height:58px;
+    padding:12px 13px;
+    background:#fff;
+    border:2px solid #d7ebf8;
+    border-radius:14px;
+    font-family:inherit;
+    font-size:clamp(.83rem, 2.35vw, 1rem);
+    font-weight:700;
+    line-height:1.3;
+    color:#26506b;
+    text-align:left;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .12s ease, opacity .15s ease;
+  }
+
+  .word-card:active:not(:disabled){ transform:scale(.975); }
+
+  .word-card .letter{
+    flex:0 0 auto;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:var(--blue-100);
+    color:var(--blue-600);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.85rem;
+    font-weight:800;
+  }
+
+  .word-card.selected{
+    border-color:var(--blue-500);
+    background:#eaf6fe;
+    box-shadow:0 0 0 3px rgba(79,168,220,.18);
+  }
+
+  .word-card.selected .letter{
+    background:var(--blue-500);
+    color:#fff;
+  }
+
+  .word-card.used{
+    opacity:.42;
+    background:#f5f9fb;
+    border-color:#e8f0f5;
+    cursor:not-allowed;
+    box-shadow:none;
+  }
+
+  .word-card.correct{
+    opacity:1;
+    background:var(--green-bg);
+    border-color:var(--green);
+    color:#1e6b47;
+    box-shadow:0 0 0 3px rgba(46,158,107,.16);
+  }
+
+  .word-card.correct .letter{
+    background:var(--green);
+    color:#fff;
+  }
+
+  .word-card.wrong{
+    border-color:var(--red);
+    background:var(--red-bg);
+    animation:shake .4s ease;
+  }
+
+  .word-card.wrong .letter{
+    background:var(--red);
+    color:#fff;
+  }
+
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    20%{ transform:translateX(-6px); }
+    40%{ transform:translateX(6px); }
+    60%{ transform:translateX(-4px); }
+    80%{ transform:translateX(4px); }
+  }
+
+  /* ============ FEEDBACK ============ */
+  .feedback{
+    display:none;
+    align-items:center;
+    gap:10px;
+    font-size:1.05rem;
+    font-weight:800;
+    padding:14px 18px;
+    border-radius:14px;
+    margin-bottom:16px;
+    animation:fadeIn .2s ease both;
+  }
+
+  .feedback.show{ display:flex; }
+
+  .feedback.correct{
+    background:var(--green-bg);
+    color:#1e6b47;
+    border:1.5px solid var(--green-border);
+  }
+
+  .feedback.wrong{
+    background:var(--red-bg);
+    color:#a33c3c;
+    border:1.5px solid var(--red-border);
+  }
+
+  .feedback.info{
+    background:var(--blue-50);
+    color:#2a5d80;
+    border:1.5px solid var(--blue-200);
+  }
+
+  .hidden{ display:none !important; }
+
+  /* ============ RESULTS ============ */
+  .results-card{ text-align:center; padding:30px 22px; }
+
+  .score-circle{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    margin:14px auto 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:radial-gradient(circle at 50% 35%, #ffffff, #e6f4fd 72%);
+    border:7px solid #b9dff5;
+    font-size:2rem;
+    font-weight:800;
+    color:#2b6d97;
+    box-shadow:var(--shadow-lg);
+  }
+
+  .final-score{
+    font-size:1.15rem;
+    color:var(--ink-soft);
+    margin:0 0 4px;
+  }
+
+  .final-score strong{ color:var(--blue-600); font-size:1.3rem; }
+
+  .final-percent{
+    font-size:2.1rem;
+    font-weight:800;
+    color:#2b6d97;
+    margin:0 0 14px;
+  }
+
+  .result-message{
+    font-size:1.1rem;
+    font-weight:700;
+    color:#2f7ba8;
+    background:var(--blue-50);
+    border:1px solid var(--blue-200);
+    border-radius:14px;
+    padding:16px 18px;
+    margin:0 auto 24px;
+    max-width:560px;
+  }
+
+  /* ============ REVIEW ============ */
+  .review-list{ display:flex; flex-direction:column; gap:12px; margin:6px 0 22px; }
+
+  .review-item{
+    background:var(--blue-50);
+    border:1px solid var(--blue-200);
+    border-left:5px solid var(--green);
+    border-radius:14px;
+    padding:15px 17px;
+    text-align:left;
+  }
+
+  .review-head{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin-bottom:7px;
+  }
+
+  .review-head .check{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    background:var(--green);
+    color:#fff;
+    font-size:.85rem;
+    font-weight:800;
+  }
+
+  .review-num{
+    font-size:.8rem;
+    font-weight:800;
+    letter-spacing:1.1px;
+    text-transform:uppercase;
+    color:var(--blue-600);
+  }
+
+  .review-text{
+    margin:0;
+    font-size:clamp(.98rem, 2.5vw, 1.1rem);
+    line-height:1.6;
+    color:var(--ink);
+  }
+
+  .review-text strong{
+    color:#1e6b47;
+    background:#d6f2e4;
+    padding:1px 8px;
+    border-radius:7px;
+    font-weight:800;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (min-width:620px){
+    .word-bank{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    .card{ padding:24px; }
+    .question-card{ padding:26px 28px; }
+  }
+
+  @media (min-width:900px){
+    .app{ padding:26px 20px 60px; }
+  }
+
+  @media (max-width:400px){
+    .word-bank{ gap:8px; }
+    .word-card{ padding:10px 11px; min-height:54px; }
+    .btn{ padding:14px 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= START SCREEN ================= -->
+  <section id="screen-start" class="screen active">
+    <div class="card hero">
+      <div class="badge">English Quiz</div>
+      <h1 class="title">SMALL FAMILY — FILL IN THE BLANKS</h1>
+      <p class="subtitle">Test your knowledge about the advantages and disadvantages of small families.</p>
+
+      <div class="meta-row">
+        <span class="meta-chip">Total questions: 7</span>
+        <span class="meta-chip">Score: 0 / 7</span>
+        <span class="meta-chip">Level: B1</span>
+      </div>
+
+      <div class="instructions">
+        <h2>How to play</h2>
+        <p>Choose the correct word or phrase from the word bank to complete each sentence. Each question has one correct answer. Good luck!</p>
+      </div>
+
+      <button class="btn btn-primary btn-lg" id="startBtn" type="button">START QUIZ</button>
+    </div>
+  </section>
+
+  <!-- ================= QUIZ SCREEN ================= -->
+  <section id="screen-quiz" class="screen">
+    <div class="topbar">
+      <span class="pill" id="qCounter">Question 1 of 7</span>
+      <span class="pill score">Score: <strong id="scoreValue">0</strong> / 7</span>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="card question-card">
+      <p class="question-label">Complete the sentence</p>
+      <p class="question-text" id="questionText"></p>
+    </div>
+
+    <div class="card bank-card">
+      <p class="bank-label">Word Bank</p>
+      <p class="bank-hint">Each word or phrase can be used only once.</p>
+      <div class="word-bank" id="wordBank"></div>
+    </div>
+
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="submitBtn" type="button" disabled>SUBMIT ANSWER</button>
+      <button class="btn btn-ghost" id="revealBtn" type="button">Reveal Answer</button>
+      <button class="btn btn-primary hidden" id="nextBtn" type="button">NEXT QUESTION</button>
+    </div>
+  </section>
+
+  <!-- ================= RESULTS SCREEN ================= -->
+  <section id="screen-results" class="screen">
+    <div class="card results-card">
+      <h1 class="title">QUIZ COMPLETED!</h1>
+      <div class="score-circle" id="scoreCircle">0/7</div>
+      <p class="final-score">Your score: <strong id="finalScore">0 / 7</strong></p>
+      <p class="final-percent" id="finalPercent">0%</p>
+      <p class="result-message" id="resultMessage"></p>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="reviewBtn" type="button">REVIEW ANSWERS</button>
+        <button class="btn btn-primary" id="playAgainBtn" type="button">PLAY AGAIN</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REVIEW SCREEN ================= -->
+  <section id="screen-review" class="screen">
+    <div class="card">
+      <h1 class="title">REVIEW ANSWERS</h1>
+      <div class="review-list" id="reviewList"></div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="backToResultsBtn" type="button">BACK TO RESULTS</button>
+        <button class="btn btn-primary" id="playAgainBtn2" type="button">PLAY AGAIN</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     DATA
+     ========================================================= */
+  var OPTIONS = {
+    A: 'attention',
+    B: 'pressure',
+    C: 'independent',
+    D: 'daily needs',
+    E: 'siblings',
+    F: 'friends and classmates',
+    G: 'advantages and disadvantages'
+  };
+
+  var QUESTIONS = [
+    { text: 'In a small family, parents can give more __________ to their children.', answer: 'A' },
+    { text: 'Children in small families may miss having brothers or sisters, also called __________.', answer: 'E' },
+    { text: 'Children can become __________ because they learn to do things by themselves.', answer: 'C' },
+    { text: 'A financial advantage of a small family is that parents may spend less money on __________.', answer: 'D' },
+    { text: 'Children can learn social skills from __________ even if they do not have siblings.', answer: 'F' },
+    { text: 'Parents with only one child may feel more __________ about their child’s future.', answer: 'B' },
+    { text: 'Both small and large families have their own __________.', answer: 'G' }
+  ];
+
+  var TOTAL = QUESTIONS.length;
+
+  /* =========================================================
+     DOM REFERENCES
+     ========================================================= */
+  function $(id) { return document.getElementById(id); }
+
+  var screens = {
+    start:   $('screen-start'),
+    quiz:    $('screen-quiz'),
+    results: $('screen-results'),
+    review:  $('screen-review')
+  };
+
+  var qCounter    = $('qCounter');
+  var scoreValue  = $('scoreValue');
+  var progressFill= $('progressFill');
+  var questionText= $('questionText');
+  var wordBank    = $('wordBank');
+  var feedback    = $('feedback');
+  var submitBtn   = $('submitBtn');
+  var revealBtn   = $('revealBtn');
+  var nextBtn     = $('nextBtn');
+
+  /* =========================================================
+     STATE
+     ========================================================= */
+  var game = null;
+
+  /* =========================================================
+     HELPERS
+     ========================================================= */
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i];
+      a[i] = a[j];
+      a[j] = tmp;
+    }
+    return a;
+  }
+
+  function showScreen(name) {
+    Object.keys(screens).forEach(function (key) {
+      screens[key].classList.remove('active');
+    });
+    screens[name].classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function buildSentence(text, replacementHTML) {
+    if (replacementHTML === null) {
+      return text.replace(/_{3,}/, '<span class="blank">__________</span>');
+    }
+    return text.replace(/_{3,}/, replacementHTML);
+  }
+
+  function clearFeedback() {
+    feedback.className = 'feedback';
+    feedback.textContent = '';
+  }
+
+  function setFeedback(type, message) {
+    feedback.className = 'feedback show ' + type;
+    feedback.textContent = message;
+  }
+
+  function getCard(letter) {
+    return wordBank.querySelector('.word-card[data-letter="' + letter + '"]');
+  }
+
+  /* =========================================================
+     GAME SETUP
+     ========================================================= */
+  function newGame() {
+    game = {
+      order: shuffle(QUESTIONS),
+      bank: shuffle(Object.keys(OPTIONS)),
+      index: 0,
+      score: 0,
+      used: [],
+      selected: null,
+      firstAttempt: true,
+      answered: false,
+      results: []
+    };
+  }
+
+  function isUsed(letter) {
+    return game.used.indexOf(letter) !== -1;
+  }
+
+  function startQuiz() {
+    newGame();
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
+  function renderQuestion() {
+    var q = game.order[game.index];
+
+    game.selected = null;
+    game.firstAttempt = true;
+    game.answered = false;
+
+    qCounter.textContent = 'Question ' + (game.index + 1) + ' of ' + TOTAL;
+    scoreValue.textContent = game.score;
+    progressFill.style.width = ((game.index / TOTAL) * 100) + '%';
+
+    questionText.innerHTML = buildSentence(q.text, null);
+
+    renderBank();
+    clearFeedback();
+
+    submitBtn.classList.remove('hidden');
+    submitBtn.disabled = true;
+    revealBtn.classList.remove('hidden');
+    nextBtn.classList.add('hidden');
+    nextBtn.textContent = (game.index === TOTAL - 1) ? 'SEE RESULTS' : 'NEXT QUESTION';
+  }
+
+  function renderBank() {
+    wordBank.innerHTML = '';
+
+    game.bank.forEach(function (letter) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'word-card';
+      btn.setAttribute('data-letter', letter);
+      btn.innerHTML = '<span class="letter">' + letter + '</span><span class="word">' + OPTIONS[letter] + '</span>';
+
+      if (isUsed(letter)) {
+        btn.classList.add('used');
+        btn.disabled = true;
+      }
+
+      wordBank.appendChild(btn);
+    });
+
+    updateSelectionUI();
+  }
+
+  function updateSelectionUI() {
+    var cards = wordBank.querySelectorAll('.word-card');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var isSel = (card.getAttribute('data-letter') === game.selected) && !card.disabled;
+      card.classList.toggle('selected', isSel);
+    }
+    submitBtn.disabled = (!game.selected) || game.answered;
+  }
+
+  function fillBlank(word) {
+    var q = game.order[game.index];
+    questionText.innerHTML = buildSentence(q.text, '<span class="blank filled">' + word + '</span>');
+  }
+
+  /* =========================================================
+     INTERACTIONS
+     ========================================================= */
+  function selectOption(letter) {
+    if (game.answered) return;
+    if (isUsed(letter)) return;
+    game.selected = letter;
+    updateSelectionUI();
+  }
+
+  function submitAnswer() {
+    if (game.answered) return;
+    if (!game.selected) return;
+
+    var q = game.order[game.index];
+
+    if (game.selected === q.answer) {
+      handleCorrect(q);
+    } else {
+      handleWrong();
+    }
+  }
+
+  function handleCorrect(q) {
+    game.answered = true;
+    game.used.push(q.answer);
+
+    var firstTry = game.firstAttempt;
+    if (firstTry) { game.score++; }
+
+    game.results.push({ q: q, firstTry: firstTry, revealed: false });
+
+    var card = getCard(q.answer);
+    if (card) {
+      card.classList.remove('used', 'selected', 'wrong');
+      card.classList.add('correct');
+      card.disabled = true;
+    }
+
+    game.selected = null;
+    updateSelectionUI();
+    fillBlank(OPTIONS[q.answer]);
+    setFeedback('correct', '✓ Correct!');
+
+    scoreValue.textContent = game.score;
+    progressFill.style.width = (((game.index + 1) / TOTAL) * 100) + '%';
+
+    submitBtn.classList.add('hidden');
+    revealBtn.classList.add('hidden');
+    nextBtn.classList.remove('hidden');
+  }
+
+  function handleWrong() {
+    game.firstAttempt = false;
+
+    var wrongLetter = game.selected;
+    var card = getCard(wrongLetter);
+
+    if (card) {
+      card.classList.remove('selected');
+      card.classList.add('wrong');
+      window.setTimeout(function () {
+        card.classList.remove('wrong');
+      }, 700);
+    }
+
+    game.selected = null;
+    updateSelectionUI();
+    setFeedback('wrong', '✗ Incorrect. Try again!');
+  }
+
+  function revealAnswer() {
+    if (game.answered) return;
+
+    var q = game.order[game.index];
+
+    game.answered = true;
+    game.firstAttempt = false;
+    game.used.push(q.answer);
+    game.results.push({ q: q, firstTry: false, revealed: true });
+
+    var card = getCard(q.answer);
+    if (card) {
+      card.classList.remove('used', 'selected', 'wrong');
+      card.classList.add('correct');
+      card.disabled = true;
+    }
+
+    game.selected = null;
+    updateSelectionUI();
+    fillBlank(OPTIONS[q.answer]);
+    setFeedback('info', 'The correct answer is: ' + q.answer + '. ' + OPTIONS[q.answer]);
+
+    progressFill.style.width = (((game.index + 1) / TOTAL) * 100) + '%';
+
+    submitBtn.classList.add('hidden');
+    revealBtn.classList.add('hidden');
+    nextBtn.classList.remove('hidden');
+  }
+
+  function nextQuestion() {
+    if (game.index < TOTAL - 1) {
+      game.index++;
+      renderQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  /* =========================================================
+     RESULTS
+     ========================================================= */
+  function showResults() {
+    var score = game.score;
+    var percent = Math.round((score / TOTAL) * 100);
+
+    $('scoreCircle').textContent = score + '/' + TOTAL;
+    $('finalScore').textContent = score + ' / ' + TOTAL;
+    $('finalPercent').textContent = percent + '%';
+
+    var message;
+    if (score === TOTAL) {
+      message = 'Excellent! You understand the topic very well!';
+    } else if (score >= 5) {
+      message = 'Great job! You have a good understanding!';
+    } else if (score >= 3) {
+      message = 'Good effort! Keep practising!';
+    } else {
+      message = 'Keep learning! Try again to improve your score!';
+    }
+
+    $('resultMessage').textContent = message;
+    showScreen('results');
+  }
+
+  /* =========================================================
+     REVIEW
+     ========================================================= */
+  function showReview() {
+    var list = $('reviewList');
+    list.innerHTML = '';
+
+    game.results.forEach(function (item, i) {
+      var sentence = buildSentence(
+        item.q.text,
+        '<strong>' + OPTIONS[item.q.answer] + '</strong>'
+      );
+
+      var div = document.createElement('div');
+      div.className = 'review-item';
+      div.innerHTML =
+        '<div class="review-head">' +
+          '<span class="check">✓</span>' +
+          '<span class="review-num">Question ' + (i + 1) + '</span>' +
+        '</div>' +
+        '<p class="review-text">' + sentence + '</p>';
+
+      list.appendChild(div);
+    });
+
+    showScreen('review');
+  }
+
+  /* =========================================================
+     EVENT LISTENERS (attached once)
+     ========================================================= */
+  $('startBtn').addEventListener('click', startQuiz);
+  submitBtn.addEventListener('click', submitAnswer);
+  revealBtn.addEventListener('click', revealAnswer);
+  nextBtn.addEventListener('click', nextQuestion);
+  $('reviewBtn').addEventListener('click', showReview);
+  $('playAgainBtn').addEventListener('click', startQuiz);
+  $('playAgainBtn2').addEventListener('click', startQuiz);
+  $('backToResultsBtn').addEventListener('click', function () { showScreen('results'); });
+
+  wordBank.addEventListener('click', function (e) {
+    var card = e.target.closest ? e.target.closest('.word-card') : null;
+    if (!card || card.disabled || game.answered) return;
+    selectOption(card.getAttribute('data-letter'));
+  });
+
+  /* Keyboard support: press 1-7 to select, Enter to submit */
+  document.addEventListener('keydown', function (e) {
+    if (!screens.quiz.classList.contains('active')) return;
+    if (e.key === 'Enter') {
+      if (!nextBtn.classList.contains('hidden')) {
+        nextQuestion();
+      } else if (!submitBtn.disabled) {
+        submitAnswer();
+      }
+      return;
+    }
+    var num = parseInt(e.key, 10);
+    if (num >= 1 && num <= 7) {
+      var letter = game.bank[num - 1];
+      if (letter) selectOption(letter);
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
